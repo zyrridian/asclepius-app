@@ -1,11 +1,10 @@
-package com.dicoding.asclepius.view
+package com.dicoding.asclepius.view.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.dicoding.asclepius.CancerActivity
 import com.dicoding.asclepius.R
 import com.dicoding.asclepius.databinding.ActivityMainBinding
 

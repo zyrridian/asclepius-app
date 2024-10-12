@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.dicoding.asclepius.HomeFragment"
+        android:name="com.dicoding.asclepius.view.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
 
@@ -19,31 +19,31 @@
 
     <fragment
         android:id="@+id/navigation_news"
-        android:name="com.dicoding.asclepius.NewsFragment"
+        android:name="com.dicoding.asclepius.view.fragments.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.dicoding.asclepius.HistoryFragment"
+        android:name="com.dicoding.asclepius.view.fragments.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.dicoding.asclepius.SettingsFragment"
+        android:name="com.dicoding.asclepius.view.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 
     <activity
         android:id="@+id/cancerActivity"
-        android:name="com.dicoding.asclepius.CancerActivity"
+        android:name="com.dicoding.asclepius.view.activities.CancerActivity"
         android:label="activity_cancer"
         tools:layout="@layout/activity_cancer" />
 
     <activity
         android:id="@+id/resultActivity"
-        android:name="com.dicoding.asclepius.view.ResultActivity"
+        android:name="com.dicoding.asclepius.view.activities.ResultActivity"
         android:label="activity_result"
         tools:layout="@layout/activity_result" />
 

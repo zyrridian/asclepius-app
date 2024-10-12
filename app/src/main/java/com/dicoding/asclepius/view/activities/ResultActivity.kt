@@ -1,4 +1,4 @@
-package com.dicoding.asclepius.view
+package com.dicoding.asclepius.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

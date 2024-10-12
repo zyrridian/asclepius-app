@@ -1,4 +1,4 @@
-package com.dicoding.asclepius
+package com.dicoding.asclepius.view.activities
 
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.asclepius.databinding.ActivityCancerBinding
 import com.dicoding.asclepius.helper.ImageClassifierHelper
-import com.dicoding.asclepius.view.ResultActivity
 import com.yalantis.ucrop.UCrop
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.io.File

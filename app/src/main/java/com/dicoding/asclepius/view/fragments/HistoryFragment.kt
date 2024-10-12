@@ -1,10 +1,11 @@
-package com.dicoding.asclepius
+package com.dicoding.asclepius.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dicoding.asclepius.R
 
 class HistoryFragment : Fragment() {
 
