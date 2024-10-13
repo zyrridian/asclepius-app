@@ -38,7 +38,7 @@ class CancerActivity : AppCompatActivity() {
                 analyzeImage()
                 imageClassifierHelper.classifyStaticImage(currentImageUri!!)
             } ?: run {
-                showToast("Image cannot be empty")
+                Toast.makeText(this, "Image cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -65,13 +65,13 @@ class CancerActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
+                override fun onResults(results: List<Classifications>?) {
                     runOnUiThread {
-                        results?.let {
-                            if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
-                                println(it)
+                        results?.let { s ->
+                            if (s.isNotEmpty() && s[0].categories.isNotEmpty()) {
+                                println(s)
                                 val result =
-                                    it[0].categories.sortedByDescending { it?.score }.first()
+                                    s[0].categories.sortedByDescending { it?.score }.first()
                                 moveToResult(
                                     label = result.label,
                                     confidence = result.score,
@@ -80,7 +80,7 @@ class CancerActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(
                                     this@CancerActivity,
-                                    "gambar kosong?",
+                                    "An unexpected error happened",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -120,10 +120,6 @@ class CancerActivity : AppCompatActivity() {
         intent.putExtra(ResultActivity.EXTRA_CONFIDENCE, confidence)
         intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, imageUri)
         startActivity(intent)
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     // Gallery launcher

@@ -16,9 +16,9 @@ import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 
 
 class ImageClassifierHelper(
-    var threshold: Float = 0.1f,
-    var maxResults: Int = 3,
-    val modelName: String = "cancer_classification.tflite",
+    private var threshold: Float = 0.1f,
+    private var maxResults: Int = 3,
+    private val modelName: String = "cancer_classification.tflite",
     val context: Context,
     val classifierListener: ClassifierListener?
 ) {
@@ -67,10 +67,7 @@ class ImageClassifierHelper(
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
 
         // Return results to listener
-        classifierListener?.onResults(
-            results,
-            inferenceTime
-        )
+        classifierListener?.onResults(results)
     }
 
     private fun toBitmap(imageUri: Uri): Bitmap {
@@ -83,16 +80,9 @@ class ImageClassifierHelper(
         }
     }
 
-    companion object {
-        private const val TAG = "ImageClassifierHelper"
-    }
-
     interface ClassifierListener {
         fun onError(error: String)
-        fun onResults(
-            results: List<Classifications>?,
-            inferenceTime: Long
-        )
+        fun onResults(results: List<Classifications>?)
     }
 
 }

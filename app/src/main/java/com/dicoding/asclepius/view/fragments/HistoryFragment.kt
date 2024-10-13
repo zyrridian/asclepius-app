@@ -34,12 +34,12 @@ class HistoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            layoutManager = GridLayoutManager(context, 5)
+        layoutManager = if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            GridLayoutManager(context, 5)
         } else {
-            layoutManager = GridLayoutManager(context, 2)
+            GridLayoutManager(context, 2)
         }
         return binding.root
     }
@@ -55,7 +55,7 @@ class HistoryFragment : Fragment() {
                 is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     cancerAdapter.setLoadingState(true)
-                    updateUI(true, false)
+                    updateUI(isLoading = true, isEmpty = false)
                 }
 
                 is Result.Success -> {
@@ -64,10 +64,10 @@ class HistoryFragment : Fragment() {
 
                     // Check if the data list is empty
                     if (result.data.isEmpty()) {
-                        updateUI(false, true)
+                        updateUI(isLoading = false, isEmpty = true)
                     } else {
                         cancerAdapter.submitList(result.data.reversed()) // Pass actual data to the adapter
-                        updateUI(false, false)
+                        updateUI(isLoading = false, isEmpty = false)
                         recyclerViewState?.let {
                             layoutManager.onRestoreInstanceState(it)
                         }
@@ -77,7 +77,7 @@ class HistoryFragment : Fragment() {
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(context, "Data failed to load", Toast.LENGTH_LONG).show()
-                    updateUI(false, true)
+                    updateUI(isLoading = false, isEmpty = true)
                     isLoading = false
                 }
             }

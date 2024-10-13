@@ -1,5 +1,6 @@
 package com.dicoding.asclepius.view.adapters
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -50,7 +51,7 @@ class NewsAdapter(
 
     class ShimmerViewHolder(binding: ItemShimmerNewsBinding) : RecyclerView.ViewHolder(binding.root)
 
-    class MyViewHolder(val binding: ItemDataNewsBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: ItemDataNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(news: NewsEntity) {
             binding.titleTextView.text = news.title
             binding.descriptionTextView.text = news.description
@@ -71,6 +72,7 @@ class NewsAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setLoadingState(isLoading: Boolean) {
         this.isLoading = isLoading
         notifyDataSetChanged()

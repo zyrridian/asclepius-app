@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.fragments.HistoryFragment">
+    tools:context=".view.fragments.HistoryFragment"
+    tools:ignore="Overdraw">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -20,7 +21,8 @@
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorPrimary" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_animation_view"

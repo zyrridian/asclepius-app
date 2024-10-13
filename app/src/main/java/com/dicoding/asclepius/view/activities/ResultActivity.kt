@@ -1,5 +1,6 @@
 package com.dicoding.asclepius.view.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ class ResultActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(application)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityResultBinding.inflate(layoutInflater)

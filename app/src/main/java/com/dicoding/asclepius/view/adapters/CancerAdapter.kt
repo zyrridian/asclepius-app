@@ -65,6 +65,7 @@ class CancerAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setLoadingState(isLoading: Boolean) {
         this.isLoading = isLoading
         notifyDataSetChanged()
