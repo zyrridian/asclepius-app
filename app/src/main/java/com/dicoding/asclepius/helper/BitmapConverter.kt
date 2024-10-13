@@ -10,11 +10,12 @@ import java.io.InputStream
 object ImageConverter {
 
     // Convert image URI to ByteArray
-    fun uriToByteArray(contentResolver: ContentResolver, uri: Uri?): ByteArray? {
+    fun uriToByteArray(contentResolver: ContentResolver, uri: Uri?, maxWidth: Int = 1000, maxHeight: Int = 1000): ByteArray? {
         return try {
             val inputStream: InputStream? = uri?.let { contentResolver.openInputStream(it) }
             val bitmap = BitmapFactory.decodeStream(inputStream)
-            bitmapToByteArray(bitmap)
+            val resizedBitmap = resizeBitmap(bitmap, maxWidth, maxHeight)
+            bitmapToByteArray(resizedBitmap)
         } catch (e: Exception) {
             e.printStackTrace()
             null
@@ -30,7 +31,26 @@ object ImageConverter {
     private fun bitmapToByteArray(bitmap: Bitmap?): ByteArray? {
         if (bitmap == null) return null
         val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream) // Choose format and quality
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream)
         return stream.toByteArray()
     }
+
+    private fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+        val ratio: Float = width.toFloat() / height.toFloat()
+        val newWidth: Int
+        val newHeight: Int
+
+        if (ratio > 1) {
+            newWidth = maxWidth
+            newHeight = (maxWidth / ratio).toInt()
+        } else {
+            newHeight = maxHeight
+            newWidth = (maxHeight * ratio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+    }
+
 }

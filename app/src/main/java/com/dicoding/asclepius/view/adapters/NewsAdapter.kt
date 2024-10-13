@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.dicoding.asclepius.R
 import com.dicoding.asclepius.data.local.entity.NewsEntity
 import com.dicoding.asclepius.databinding.ItemDataNewsBinding
 import com.dicoding.asclepius.databinding.ItemShimmerNewsBinding
@@ -44,7 +45,7 @@ class NewsAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (isLoading) 5 else super.getItemCount()
+        return if (isLoading) 7 else super.getItemCount()
     }
 
     class ShimmerViewHolder(binding: ItemShimmerNewsBinding) : RecyclerView.ViewHolder(binding.root)
@@ -56,6 +57,7 @@ class NewsAdapter(
             Glide.with(binding.root.context)
                 .load(news.urlToImage)
                 .transform(RoundedCorners(16))
+                .placeholder(R.drawable.ic_place_holder)
                 .into(binding.imageView)
             itemView.setOnClickListener {
                 CustomTabsIntent.Builder()

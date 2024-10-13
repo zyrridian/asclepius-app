@@ -68,6 +68,6 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@id/bottom_app_bar"
         app:maxImageSize="30dp"
-        app:tint="@color/white" />
+        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
