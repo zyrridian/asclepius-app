@@ -13,7 +13,6 @@ import com.dicoding.asclepius.helper.ImageClassifierHelper
 import com.yalantis.ucrop.UCrop
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.io.File
-import java.text.NumberFormat
 
 class CancerActivity : AppCompatActivity() {
 
@@ -26,9 +25,11 @@ class CancerActivity : AppCompatActivity() {
         binding = ActivityCancerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // TODO: Add permission checker
-
         binding.galleryButton.setOnClickListener {
+            startGallery()
+        }
+
+        binding.previewImageView.setOnClickListener {
             startGallery()
         }
 
@@ -44,12 +45,10 @@ class CancerActivity : AppCompatActivity() {
     }
 
     private fun startGallery() {
-        // TODO: Mendapatkan gambar dari Gallery.
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
     private fun showImage() {
-        // TODO: Menampilkan gambar sesuai Gallery yang dipilih.
         currentImageUri?.let {
             Log.d("Image URI", "showImage: $it")
             binding.previewImageView.setImageURI(it)
@@ -57,7 +56,6 @@ class CancerActivity : AppCompatActivity() {
     }
 
     private fun analyzeImage() {
-        // TODO: Menganalisa gambar yang berhasil ditampilkan.
         imageClassifierHelper = ImageClassifierHelper(
             context = this,
             classifierListener = object : ImageClassifierHelper.ClassifierListener {
@@ -70,15 +68,15 @@ class CancerActivity : AppCompatActivity() {
                 override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
                     runOnUiThread {
                         results?.let {
-                            val sortedCategories = it[0].categories.sortedByDescending { it?.score }
                             if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
                                 println(it)
-                                val displayResult = sortedCategories.joinToString("\n") {
-                                    "${it.label} " + NumberFormat.getPercentInstance()
-                                        .format(it.score).trim()
-                                }
-                                // todo: send $inferenceTime ms
-                                moveToResult(currentImageUri, displayResult)
+                                val result =
+                                    it[0].categories.sortedByDescending { it?.score }.first()
+                                moveToResult(
+                                    label = result.label,
+                                    confidence = result.score,
+                                    imageUri = currentImageUri
+                                )
                             } else {
                                 Toast.makeText(
                                     this@CancerActivity,
@@ -95,10 +93,9 @@ class CancerActivity : AppCompatActivity() {
     }
 
     private fun launchUCrop(sourceUri: Uri) {
-        val destinationUri = Uri.fromFile(File(cacheDir, "cropped_${System.currentTimeMillis()}.jpg"))
+        val destinationUri =
+            Uri.fromFile(File(cacheDir, "cropped_${System.currentTimeMillis()}.jpg"))
         UCrop.of(sourceUri, destinationUri)
-            .withAspectRatio(1f, 1f)
-            .withMaxResultSize(1080, 1080)
             .start(this)
     }
 
@@ -109,7 +106,7 @@ class CancerActivity : AppCompatActivity() {
             val resultUri = UCrop.getOutput(data!!)
             resultUri?.let {
                 currentImageUri = it
-                showImage() // show cropped image
+                showImage()
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
             val cropError = UCrop.getError(data!!)
@@ -117,10 +114,11 @@ class CancerActivity : AppCompatActivity() {
         }
     }
 
-    private fun moveToResult(image: Uri?, result: String) {
+    private fun moveToResult(label: String, confidence: Float, imageUri: Uri?) {
         val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, image)
-        intent.putExtra(ResultActivity.EXTRA_RESULT, result)
+        intent.putExtra(ResultActivity.EXTRA_LABEL, label)
+        intent.putExtra(ResultActivity.EXTRA_CONFIDENCE, confidence)
+        intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, imageUri)
         startActivity(intent)
     }
 
@@ -133,8 +131,6 @@ class CancerActivity : AppCompatActivity() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
         if (uri != null) {
-//            currentImageUri = uri
-//            showImage()
             launchUCrop(uri)
         } else {
             Log.d("Photo Picker", "No media selected")

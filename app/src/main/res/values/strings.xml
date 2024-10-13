@@ -2,7 +2,7 @@
     <string name="app_name">Asclepius</string>
     <string name="camera_x">CameraX</string>
     <string name="camera">Kamera</string>
-    <string name="gallery">Galeri</string>
+    <string name="gallery">Gallery</string>
     <string name="analyze">Analyze</string>
     <string name="empty_image_warning">Silakan masukkan berkas gambar terlebih dahulu.</string>
     <string name="result">Hasil Analisis</string>
@@ -51,4 +51,13 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="retry">Retry</string>
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="image_target">image target</string>
+    <string name="analysis_results">Analysis Results</string>
+    <string name="pick_image_for_cancer_analysis">Pick Image for Cancer Analysis</string>
+    <string name="history">History</string>
+    <string name="news">News</string>
 </resources>

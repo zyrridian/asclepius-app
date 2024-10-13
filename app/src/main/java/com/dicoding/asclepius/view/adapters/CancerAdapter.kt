@@ -1,22 +1,22 @@
 package com.dicoding.asclepius.view.adapters
 
-import android.content.Intent
-import android.net.Uri
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.dicoding.asclepius.data.local.entity.NewsEntity
-import com.dicoding.asclepius.databinding.ItemDataNewsBinding
-import com.dicoding.asclepius.databinding.ItemShimmerNewsBinding
+import com.dicoding.asclepius.data.local.entity.CancerEntity
+import com.dicoding.asclepius.databinding.ItemDataCancerBinding
+import com.dicoding.asclepius.databinding.ItemShimmerCancerBinding
+import com.dicoding.asclepius.helper.ImageConverter
+import java.text.NumberFormat
 
-class NewsAdapter(
+class CancerAdapter(
     private var isLoading: Boolean = true
-) : ListAdapter<NewsEntity, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<CancerEntity, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     override fun getItemViewType(position: Int): Int {
         return if (isLoading) VIEW_TYPE_SHIMMER else VIEW_TYPE_DATA
@@ -24,12 +24,12 @@ class NewsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_SHIMMER) {
-            val binding = ItemShimmerNewsBinding.inflate(
+            val binding = ItemShimmerCancerBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
             ShimmerViewHolder(binding)
         } else {
-            val binding = ItemDataNewsBinding.inflate(
+            val binding = ItemDataCancerBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
             MyViewHolder(binding)
@@ -38,8 +38,8 @@ class NewsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MyViewHolder && !isLoading) {
-            val news = getItem(position)
-            holder.bind(news)
+            val cancer = getItem(position)
+            holder.bind(cancer)
         }
     }
 
@@ -47,25 +47,19 @@ class NewsAdapter(
         return if (isLoading) 5 else super.getItemCount()
     }
 
-    class ShimmerViewHolder(binding: ItemShimmerNewsBinding) : RecyclerView.ViewHolder(binding.root)
+    class ShimmerViewHolder(binding: ItemShimmerCancerBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-    class MyViewHolder(val binding: ItemDataNewsBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(news: NewsEntity) {
-            binding.titleTextView.text = news.title
-            binding.descriptionTextView.text = news.description
+    class MyViewHolder(private val binding: ItemDataCancerBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(cancer: CancerEntity) {
+            binding.labelTextView.text = cancer.label
+            binding.confidenceTextView.text =
+                NumberFormat.getPercentInstance().format(cancer.confidence).trim()
             Glide.with(binding.root.context)
-                .load(news.urlToImage)
+                .load(cancer.image?.let { ImageConverter.byteArrayToBitmap(it) })
                 .transform(RoundedCorners(16))
                 .into(binding.imageView)
-            itemView.setOnClickListener {
-                CustomTabsIntent.Builder()
-                    .setShowTitle(true)
-                    .build()
-                    .apply {
-                        intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-                    }
-                    .launchUrl(itemView.context, Uri.parse(news.url))
-            }
         }
     }
 
@@ -78,12 +72,13 @@ class NewsAdapter(
         private const val VIEW_TYPE_SHIMMER = 0
         private const val VIEW_TYPE_DATA = 1
 
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NewsEntity>() {
-            override fun areItemsTheSame(oldItem: NewsEntity, newItem: NewsEntity): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CancerEntity>() {
+            override fun areItemsTheSame(oldItem: CancerEntity, newItem: CancerEntity): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: NewsEntity, newItem: NewsEntity): Boolean {
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(oldItem: CancerEntity, newItem: CancerEntity): Boolean {
                 return oldItem == newItem
             }
         }

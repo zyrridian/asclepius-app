@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.dicoding.asclepius.data.local.entity.CancerEntity
 import com.dicoding.asclepius.data.local.entity.NewsEntity
 
 @Dao
@@ -17,10 +18,10 @@ interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNews(news: List<NewsEntity>)
 
-    @Update
-    suspend fun updateNews(news: NewsEntity)
+    @Query("SELECT * FROM cancer")
+    fun getCancer(): LiveData<List<CancerEntity>>
 
-    @Query("DELETE FROM news")
-    suspend fun deleteAll()
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCancer(cancer: CancerEntity)
 
 }

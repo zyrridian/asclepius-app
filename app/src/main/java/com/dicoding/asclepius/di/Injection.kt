@@ -3,7 +3,7 @@ package com.dicoding.asclepius.di
 import android.content.Context
 import com.dicoding.asclepius.data.local.room.MainDatabase
 import com.dicoding.asclepius.data.remote.retrofit.ApiConfig
-import com.dicoding.asclepius.data.repository.MainRepository
+import com.dicoding.asclepius.data.MainRepository
 
 object Injection {
     fun provideRepository(context: Context): MainRepository {

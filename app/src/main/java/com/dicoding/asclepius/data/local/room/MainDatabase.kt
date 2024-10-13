@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.dicoding.asclepius.data.local.entity.CancerEntity
 import com.dicoding.asclepius.data.local.entity.NewsEntity
 
-@Database(entities = [NewsEntity::class], version = 1, exportSchema = false)
+@Database(entities = [NewsEntity::class, CancerEntity::class], version = 3, exportSchema = false)
 abstract class MainDatabase : RoomDatabase() {
 
     abstract fun newsDao(): NewsDao

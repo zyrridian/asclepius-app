@@ -3,7 +3,7 @@ package com.dicoding.asclepius.view.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.asclepius.data.repository.MainRepository
+import com.dicoding.asclepius.data.MainRepository
 import com.dicoding.asclepius.di.Injection
 
 class ViewModelFactory(

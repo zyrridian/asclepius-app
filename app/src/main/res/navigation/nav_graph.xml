@@ -3,19 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_home">
-
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.dicoding.asclepius.view.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
-
-        <action
-            android:id="@+id/action_navigation_home_to_cancerActivity"
-            app:destination="@id/cancerActivity" />
-
-    </fragment>
+    app:startDestination="@id/navigation_news">
 
     <fragment
         android:id="@+id/navigation_news"
@@ -28,12 +16,6 @@
         android:name="com.dicoding.asclepius.view.fragments.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
-
-    <fragment
-        android:id="@+id/navigation_settings"
-        android:name="com.dicoding.asclepius.view.fragments.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
 
     <activity
         android:id="@+id/cancerActivity"

@@ -92,10 +92,13 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
-    // Shimmer
+    // Shimmer and lottie
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("com.airbnb.android:lottie:6.5.2")
 
-    // Browser
+    // Browser and splash
     implementation("androidx.browser:browser:1.8.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
 
 }

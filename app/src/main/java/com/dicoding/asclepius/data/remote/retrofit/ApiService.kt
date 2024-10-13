@@ -11,6 +11,8 @@ interface ApiService {
     suspend fun getNews(
         @Query("q") query: String = "cancer",
         @Query("sortBy") sortBy: String = "relevancy",
+        @Query("page") page: Int = 50,
+        @Query("pageSize") pageSize: Int = 1,
         @Query("apiKey") apiKey: String = ApiKey.API_KEY
     ): NewsResponse
 

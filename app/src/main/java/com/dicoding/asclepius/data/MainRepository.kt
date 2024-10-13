@@ -1,9 +1,10 @@
-package com.dicoding.asclepius.data.repository
+package com.dicoding.asclepius.data
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import com.dicoding.asclepius.data.local.entity.CancerEntity
 import com.dicoding.asclepius.data.local.entity.NewsEntity
 import com.dicoding.asclepius.data.local.room.NewsDao
 import com.dicoding.asclepius.data.remote.retrofit.ApiService
@@ -14,10 +15,10 @@ class MainRepository(
     private val newsDao: NewsDao
 ) {
 
-    fun getNews(): LiveData<Result<List<NewsEntity>>> = liveData {
+    fun getNews(page: Int, pageSize: Int): LiveData<Result<List<NewsEntity>>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.getNews()
+            val response = apiService.getNews(page = page, pageSize = pageSize)
             val news = response.articles
             val newsList = news?.map {
                 // todo: isFavorite if needed
@@ -32,15 +33,33 @@ class MainRepository(
                 )
             }
             if (newsList != null) newsDao.insertNews(newsList)
-
         } catch (e: Exception) {
-            Log.d("NewsRepository", "getNews(): ${e.message.toString()}")
+            Log.d("MainRepository", "getNews(): ${e.message.toString()}")
             emit(Result.Error(e.message.toString()))
         }
 
         // Save data to room
         val localData: LiveData<Result<List<NewsEntity>>> =
             newsDao.getNews().map { Result.Success(it) }
+        emitSource(localData)
+    }
+
+    suspend fun setCancerHistory(cancer: CancerEntity) {
+        newsDao.insertCancer(cancer)
+    }
+
+    fun getCancers(): LiveData<Result<List<CancerEntity>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val localData: List<CancerEntity> = newsDao.getCancer().value ?: emptyList()
+            emit(Result.Success(localData))
+        } catch (e: Exception) {
+            Log.d("MainRepository", "getCancers(): ${e.message.toString()}")
+            emit(Result.Error(e.message.toString()))
+        }
+        // Save data to room
+        val localData: LiveData<Result<List<CancerEntity>>> =
+            newsDao.getCancer().map { Result.Success(it) }
         emitSource(localData)
     }
 
