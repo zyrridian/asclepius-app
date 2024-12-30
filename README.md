@@ -3,7 +3,7 @@
 Asclepius is an Android application designed to assist in detecting cancer through image analysis. The app utilizes a machine learning model (TensorFlow Lite) to classify images as cancerous or non-cancerous. It also features a news page with the latest articles related to cancer research and treatments. All analysis history is stored in a dedicated history page for easy access and reference.
 
 ## Screenshots
-![Frame 47](https://github.com/user-attachments/assets/c3fcab5f-f909-438b-8841-20af3f0ba37b)
+![asclepius-screenshot](https://github.com/user-attachments/assets/442f7829-26da-403c-8ea9-3eabd96d91e4)
 
 ## Table of Contents
 - [Features](https://github.com/zyrridian/dicoding-book-app/edit/master/README.md#features)
